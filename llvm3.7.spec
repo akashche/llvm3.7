@@ -15,7 +15,7 @@
 
 Name:           llvm%{major_version}
 Version:        %{major_version}.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        The Low Level Virtual Machine
 
 Group:          Development/Languages
@@ -140,6 +140,9 @@ sed -i.orig -e 's|(PROJ_prefix)/lib|(PROJ_prefix)/%{_lib}/%{name}|g' \
 sed -i.orig -e 's|/lib\>|/%{_lib}/%{name}|g' \
             -e 's|/include\>|/include/%{name}|g' \
             tools/llvm-config/llvm-config.cpp
+sed -i.orig -e 's|/lib\>|/%{_lib}\\/%{name}|g' \
+            -e 's|/include\>|/include/%{name}|g' \
+            cmake/modules/Makefile
 
 %build
 %ifarch s390
@@ -335,6 +338,9 @@ exit 0
 %doc %{llvmdocdir %{name}-doc}/
 
 %changelog
+* Tue Feb 7 2017 Orion Poplawski <orion@cora.nwra.com> - 3.7.1-4
+- Fix paths in LLVMConfig.cmake
+
 * Sat Jul 2 2016 Milan Bouchet-Valat <nalimilan@club.fr> - 3.7.1-3
 - Add more patches needed by Julia.
 
