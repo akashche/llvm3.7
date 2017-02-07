@@ -15,7 +15,7 @@
 
 Name:           llvm%{major_version}
 Version:        %{major_version}.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        The Low Level Virtual Machine
 
 Group:          Development/Languages
@@ -138,10 +138,15 @@ sed -i.orig -e 's|(PROJ_prefix)/lib|(PROJ_prefix)/%{_lib}/%{name}|g' \
             -e 's|(PROJ_prefix)/include|(PROJ_prefix)/include/%{name}|g' \
             Makefile.config.in
 sed -i.orig -e 's|/lib\>|/%{_lib}/%{name}|g' \
+            -e 's|/bin\>|/%{_lib}/%{name}/bin|g' \
             -e 's|/include\>|/include/%{name}|g' \
             tools/llvm-config/llvm-config.cpp
 sed -i.orig -e 's|/lib\>|/%{_lib}\\/%{name}|g' \
+            -e 's|/bin\>|/%{_lib}/%{name}/bin|g' \
             -e 's|/include\>|/include/%{name}|g' \
+%if "%{?_lib}" == "lib64"
+            -e 's|s/@LLVM_LIBDIR_SUFFIX@//|s/@LLVM_LIBDIR_SUFFIX@/64/|' \
+%endif
             cmake/modules/Makefile
 
 %build
@@ -250,10 +255,14 @@ cp -ar examples %{buildroot}%{llvmdocdir %{name}-doc}/examples
 find %{buildroot}%{llvmdocdir %{name}-doc} -name Makefile -o -name CMakeLists.txt -o -name LLVMBuild.txt -print0 | xargs -0 rm -f
 
 # suffix bindir files with major version to avoid conflict with llvm
+# and make symlinked bindir
+mkdir %{buildroot}%{_libdir}/%{name}/bin
 for i in %{buildroot}%{_bindir}/*; do
     mv $i $i-%{major_version}
+    ln -s ../../../bin/${i##*/}-%{major_version} %{buildroot}%{_libdir}/%{name}/bin/${i##*/}
 done
 ln -sf llvm-ar-%{major_version} %{buildroot}%{_bindir}/llvm-ranlib-%{major_version}
+ln -sf llvm-ar %{buildroot}%{_libdir}/%{name}/bin/llvm-ranlib
 
 # delete the rest of installed documentation (because it's bad)
 rm -rf %{buildroot}/moredocs
@@ -318,10 +327,20 @@ exit 0
 %{_bindir}/llvm*-%{major_version}
 %{_bindir}/macho-dump-%{major_version}
 %{_bindir}/opt-%{major_version}
+%dir %{_libdir}/%{name}/bin
+%{_libdir}/%{name}/bin/bugpoint
+%{_libdir}/%{name}/bin/llc
+%{_libdir}/%{name}/bin/lli
+%{_libdir}/%{name}/bin/lli-child-target
+%exclude %{_libdir}/%{name}/bin/llvm-config-%{__isa_bits}
+%{_libdir}/%{name}/bin/llvm*
+%{_libdir}/%{name}/bin/macho-dump
+%{_libdir}/%{name}/bin/opt
 
 %files devel
 %doc %{llvmdocdir %{name}-devel}/
 %{_bindir}/llvm-config-%{__isa_bits}-%{major_version}
+%{_libdir}/%{name}/bin/llvm-config-%{__isa_bits}
 %{_includedir}/%{name}
 %{_datadir}/%{name}
 
@@ -338,6 +357,10 @@ exit 0
 %doc %{llvmdocdir %{name}-doc}/
 
 %changelog
+* Tue Feb 7 2017 Orion Poplawski <orion@cora.nwra.com> - 3.7.1-5
+- Install binary symlinks in %{_libdir}/%{name}/bin
+- Fix LLVM_LIBDIR_SUFFIX in LLVMConfig.cmake
+
 * Tue Feb 7 2017 Orion Poplawski <orion@cora.nwra.com> - 3.7.1-4
 - Fix paths in LLVMConfig.cmake
 
