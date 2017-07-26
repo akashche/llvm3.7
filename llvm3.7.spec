@@ -15,7 +15,7 @@
 
 Name:           llvm%{major_version}
 Version:        %{major_version}.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The Low Level Virtual Machine
 
 Group:          Development/Languages
@@ -357,6 +357,9 @@ exit 0
 %doc %{llvmdocdir %{name}-doc}/
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Tue Feb 7 2017 Orion Poplawski <orion@cora.nwra.com> - 3.7.1-5
 - Install binary symlinks in %{_libdir}/%{name}/bin
 - Fix LLVM_LIBDIR_SUFFIX in LLVMConfig.cmake
