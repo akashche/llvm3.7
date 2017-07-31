@@ -15,7 +15,7 @@
 
 Name:           llvm%{major_version}
 Version:        %{major_version}.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        The Low Level Virtual Machine
 
 Group:          Development/Languages
@@ -36,6 +36,7 @@ Patch4:         llvm-3.7.1-julia2.patch
 Patch5:         llvm-3.7.1-julia3.patch
 Patch6:         llvm-D14260.patch
 Patch7:         llvm-D21271-instcombine-tbaa-3.7.patch
+Patch8:         llvm-Wno-format-security.patch
 
 BuildRequires:  bison
 BuildRequires:  chrpath
@@ -131,6 +132,7 @@ rm -rf tools/clang tools/lldb projects/compiler-rt
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 # fix library paths
 sed -i.orig 's|/lib /usr/lib $lt_ld_extra|%{_libdir} $lt_ld_extra|' configure
@@ -357,6 +359,9 @@ exit 0
 %doc %{llvmdocdir %{name}-doc}/
 
 %changelog
+* Mon Jul 31 2017 Milan Bouchet-Valat <nalimilan@club.fr> - 3.7.1-7
+- Fix FTBFS.
+
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.1-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 

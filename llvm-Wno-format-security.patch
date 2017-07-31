@@ -1,0 +1,7 @@
+diff -p1 -ur a/lib/Target/CppBackend/Makefile b/lib/Target/CppBackend/Makefile
+--- a/lib/Target/CppBackend/Makefile	2011-11-10 16:35:14.000000000 +0100
++++ b/lib/Target/CppBackend/Makefile	2017-07-31 17:43:13.663338549 +0200
+@@ -15,2 +15,2 @@ include $(LEVEL)/Makefile.common
+ 
+-CompileCommonOpts += -Wno-format
++CompileCommonOpts += -Wno-format -Wno-format-security
