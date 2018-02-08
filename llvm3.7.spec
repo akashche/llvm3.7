@@ -15,7 +15,7 @@
 
 Name:           llvm%{major_version}
 Version:        %{major_version}.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        The Low Level Virtual Machine
 
 Group:          Development/Languages
@@ -359,6 +359,9 @@ exit 0
 %doc %{llvmdocdir %{name}-doc}/
 
 %changelog
+* Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.1-8
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Mon Jul 31 2017 Milan Bouchet-Valat <nalimilan@club.fr> - 3.7.1-7
 - Fix FTBFS.
 
