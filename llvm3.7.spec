@@ -15,7 +15,7 @@
 
 Name:           llvm%{major_version}
 Version:        %{major_version}.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        The Low Level Virtual Machine
 
 Group:          Development/Languages
@@ -359,6 +359,9 @@ exit 0
 %doc %{llvmdocdir %{name}-doc}/
 
 %changelog
+* Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.7.1-9
+- Escape macros in %%changelog
+
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.7.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
@@ -369,7 +372,7 @@ exit 0
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
 * Tue Feb 7 2017 Orion Poplawski <orion@cora.nwra.com> - 3.7.1-5
-- Install binary symlinks in %{_libdir}/%{name}/bin
+- Install binary symlinks in %%{_libdir}/%%{name}/bin
 - Fix LLVM_LIBDIR_SUFFIX in LLVMConfig.cmake
 
 * Tue Feb 7 2017 Orion Poplawski <orion@cora.nwra.com> - 3.7.1-4
