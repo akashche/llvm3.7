@@ -15,7 +15,7 @@
 
 Name:           llvm%{major_version}
 Version:        %{major_version}.1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        The Low Level Virtual Machine
 
 Group:          Development/Languages
@@ -359,6 +359,10 @@ exit 0
 %doc %{llvmdocdir %{name}-doc}/
 
 %changelog
+* Wed Mar 07 2018 Adam Williamson <awilliam@redhat.com> - 3.7.1-10
+- Rebuild to fix GCC 8 mis-compilation
+  See https://da.gd/YJVwk ("GCC 8 ABI change on x86_64")
+
 * Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.7.1-9
 - Escape macros in %%changelog
 
