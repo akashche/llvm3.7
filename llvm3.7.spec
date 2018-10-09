@@ -15,7 +15,7 @@
 
 Name:           llvm%{major_version}
 Version:        %{major_version}.1
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        The Low Level Virtual Machine
 
 Group:          Development/Languages
@@ -37,6 +37,7 @@ Patch5:         llvm-3.7.1-julia3.patch
 Patch6:         llvm-D14260.patch
 Patch7:         llvm-D21271-instcombine-tbaa-3.7.patch
 Patch8:         llvm-Wno-format-security.patch
+Patch9:         llvm-3.7.1-implicit-bool.patch
 
 BuildRequires:  bison
 BuildRequires:  chrpath
@@ -133,6 +134,7 @@ rm -rf tools/clang tools/lldb projects/compiler-rt
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 # fix library paths
 sed -i.orig 's|/lib /usr/lib $lt_ld_extra|%{_libdir} $lt_ld_extra|' configure
@@ -214,7 +216,7 @@ export CXXFLAGS="%{optflags} -DLLDB_DISABLE_PYTHON -DHAVE_PROCESS_VM_READV"
   --with-binutils-include=%{_includedir}
 %endif
 
-make %{?_smp_mflags} REQUIRES_RTTI=1 VERBOSE=1
+make %{?_smp_mflags} REQUIRES_RTTI=1 #VERBOSE=1
 #make REQUIRES_RTTI=1 VERBOSE=1
 
 %install
@@ -359,6 +361,9 @@ exit 0
 %doc %{llvmdocdir %{name}-doc}/
 
 %changelog
+* Tue Oct 09 2018 Alex Kashchenko <akashche@redhat.com> - 3.7.1-11
+- Add llvm-3.7.1-implicit-bool patch
+
 * Wed Mar 07 2018 Adam Williamson <awilliam@redhat.com> - 3.7.1-10
 - Rebuild to fix GCC 8 mis-compilation
   See https://da.gd/YJVwk ("GCC 8 ABI change on x86_64")

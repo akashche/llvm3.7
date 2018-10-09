@@ -1,0 +1,11 @@
+--- a/include/llvm/IR/ValueMap.h	2018-10-09 20:41:37.829219892 +0000
++++ b/include/llvm/IR/ValueMap.h	2018-10-09 20:41:53.503035969 +0000
+@@ -99,7 +99,7 @@
+   explicit ValueMap(const ExtraData &Data, unsigned NumInitBuckets = 64)
+       : Map(NumInitBuckets), Data(Data) {}
+ 
+-  bool hasMD() const { return MDMap; }
++  bool hasMD() const { return static_cast<bool>(MDMap); }
+   MDMapT &MD() {
+     if (!MDMap)
+       MDMap.reset(new MDMapT);
